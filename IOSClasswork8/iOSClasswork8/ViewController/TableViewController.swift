@@ -21,13 +21,18 @@ class TableViewController: UITableViewController {
         // #warning Incomplete implementation, return the number of rows
         return cities.count
     }
+    
+    
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CellTableVC
 
         //📌أعرض الـ card للمدينة مع اسمها في الخلية
         // Configure the cell...
+        cell.cardImage.image = UIImage(named: cities[indexPath.row].cardName)
+        cell.cardLable.text = cities[indexPath.row].name
+        
         return cell
     }
     
@@ -39,7 +44,12 @@ class TableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //📌قم بالانتقال الى الواجهة التالية بعد وضع اسم الـ Segue و انقل هيكل الـCity المختار من قبل المستخدم
-        //📌استخدم دالةperformSegue(withIdentifier: , sender: T##Any?)
+       
+    //📌استخدم دالةperformSegue(withIdentifier: , sender: T##Any?)
+   
+    performSegue(withIdentifier: "goweatherdetails", sender: indexPath.row)
+
+    
     }
     
     // MARK: - Navigation
@@ -52,7 +62,12 @@ class TableViewController: UITableViewController {
        
         //📌مرر هيكل City الى الواجهة الجديدة
         // Pass the selected object to the new view controller.
-    
+    if segue.identifier == "goweatherdetails"{
+      let index = sender as! Int
+      let vc = segue.destination as! weatherDetails
+      vc.city = cities[index]
+    }
+
     }
 
 }
